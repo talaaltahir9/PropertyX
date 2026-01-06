@@ -3,8 +3,9 @@
 import { login, signup } from '@/app/auth/actions';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
-export default function LoginPage({ isRegister = false }: { isRegister?: boolean }) {
+function LoginForm({ isRegister = false }: { isRegister?: boolean }) {
     const searchParams = useSearchParams();
     const message = searchParams.get('message');
     const error = searchParams.get('error');
@@ -102,5 +103,13 @@ export default function LoginPage({ isRegister = false }: { isRegister?: boolean
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function LoginPage(props: any) {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+            <LoginForm {...props} />
+        </Suspense>
     );
 }
